@@ -26,8 +26,8 @@ jobs:
     - name: build image
       run: |
         docker build \
-        -t muktiarafi/ticketing-common:latest
-        -t muktiarafi/ticketing-common:$GITHUB_SHA
+        -t muktiarafi/ticketing-common:latest \
+        -t muktiarafi/ticketing-common:$GITHUB_SHA \
         .
     
     - name: login to dockerhub
