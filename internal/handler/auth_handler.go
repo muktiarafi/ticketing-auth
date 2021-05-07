@@ -23,7 +23,7 @@ func NewAuthHandler(authService service.AuthService) *AuthHandler {
 }
 
 func (h *AuthHandler) Route(r *echo.Echo) {
-	auth := r.Group("/auth")
+	auth := r.Group("/api/auth")
 	auth.POST("", h.SignIn)
 	auth.POST("/signup", h.New)
 	auth.GET("", h.CurrentUser, common.RequireAuth)
