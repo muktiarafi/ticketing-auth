@@ -136,7 +136,7 @@ func TestAuthHandlerCurrentUser(t *testing.T) {
 
 		assertCookiExist(t, response)
 
-		request := httptest.NewRequest(http.MethodGet, "/auth", nil)
+		request := httptest.NewRequest(http.MethodGet, "/api/auth", nil)
 		request.Header.Set("Content-Type", "application/json")
 		request.AddCookie(response.Result().Cookies()[0])
 		response = httptest.NewRecorder()
@@ -156,7 +156,7 @@ func TestAuthHandlerCurrentUser(t *testing.T) {
 	})
 
 	t.Run("get user without cookie", func(t *testing.T) {
-		request := httptest.NewRequest(http.MethodGet, "/auth", nil)
+		request := httptest.NewRequest(http.MethodGet, "/api/auth", nil)
 		request.Header.Set("Content-Type", "application/json")
 		response := httptest.NewRecorder()
 		router.ServeHTTP(response, request)
@@ -172,7 +172,7 @@ func TestAuthHandlerSignOut(t *testing.T) {
 		assertResponseCode(t, http.StatusCreated, response.Code)
 		assertCookiExist(t, response)
 
-		request := httptest.NewRequest(http.MethodPost, "/auth/signout", nil)
+		request := httptest.NewRequest(http.MethodPost, "/api/auth/signout", nil)
 		request.AddCookie(response.Result().Cookies()[0])
 		response = httptest.NewRecorder()
 		router.ServeHTTP(response, request)
@@ -183,7 +183,7 @@ func TestAuthHandlerSignOut(t *testing.T) {
 func createUser(userDTO *model.UserDTO) (*httptest.ResponseRecorder, []byte) {
 	userJSON, _ := json.Marshal(userDTO)
 
-	request := httptest.NewRequest(http.MethodPost, "/auth/signup", bytes.NewBuffer(userJSON))
+	request := httptest.NewRequest(http.MethodPost, "/api/auth/signup", bytes.NewBuffer(userJSON))
 	request.Header.Set("Content-Type", "application/json")
 	response := httptest.NewRecorder()
 
@@ -197,7 +197,7 @@ func createUser(userDTO *model.UserDTO) (*httptest.ResponseRecorder, []byte) {
 func signIn(userDTO *model.UserDTO) (*httptest.ResponseRecorder, []byte) {
 	userJSON, _ := json.Marshal(userDTO)
 
-	request := httptest.NewRequest(http.MethodPost, "/auth", bytes.NewBuffer(userJSON))
+	request := httptest.NewRequest(http.MethodPost, "/api/auth", bytes.NewBuffer(userJSON))
 	request.Header.Set("Content-Type", "application/json")
 	response := httptest.NewRecorder()
 
