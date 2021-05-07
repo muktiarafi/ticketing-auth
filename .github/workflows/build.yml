@@ -22,18 +22,18 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+    
+    - name: login to dockerhub
+      run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_PASSWORD }}"
       
     - name: build image
       run: |
         docker build \
-        -t muktiarafi/ticketing-common:latest \
-        -t muktiarafi/ticketing-common:$GITHUB_SHA \
+        -t muktiarafi/ticketing-auth:latest \
+        -t muktiarafi/ticketing-auth:$GITHUB_SHA \
         .
-    
-    - name: login to dockerhub
-      run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_PASSWORD }}"
 
     - name: push
       run: |
-        docker push muktiarafi/ticketing-common:latest
-        docker push muktiarafi/ticketing-common:$GITHUB_SHA
+        docker push muktiarafi/ticketing-auth:latest
+        docker push muktiarafi/ticketing-auth:$GITHUB_SHA
